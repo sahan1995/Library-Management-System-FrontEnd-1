@@ -100,7 +100,7 @@
       <div class="col-lg-6">
 
         <div class="form-group">
-          <label for="price">Title</label>
+          <label for="price">Price</label>
           <input type="number" class="form-control" id="price"  placeholder="Enter Price" [(ngModel)]="price" name="price">
         </div>
 
@@ -139,6 +139,37 @@
 
 
   <div class="col-lg-6">
+
+  <div class="col-lg-12">
+    <div class="col-lg-3">
+      <div class="form-group">
+        <label for="cat">Category</label>
+        <select class="form-control"  [(ngModel)]="filterCategory" name="bookCatagory" (change)="filterItems()">
+          <option>All Categories</option>
+          <option>Public</option>
+          <option>Rare</option>
+
+        </select>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="form-group">
+
+        <label for="itemCat">Select Item Category</label>
+        <select class="form-control" [(ngModel)]="filterItemCategory" name="itemCategory" (change)="filterItems()">
+          <option>All Items</option>
+          <option>Book</option>
+          <option>Magazine</option>
+          <option>News Paper</option>
+          <option>Artical</option>
+        </select>
+      </div>
+
+
+    </div>
+  </div>
+
+
     <table class="table table-hover">
       <thead>
       <tr style="background-color: black">
@@ -149,21 +180,23 @@
         <th style="color: white">Publisher</th>
         <th style="color: white">Year</th>
         <th style="color: white">Category</th>
+        <th style="color: white"></th>
         <th style="color: white">Price</th>
         <th style="color: white">ISBN </th>
       </tr>
       </thead>
       <tbody *ngFor="let item of items">
-      <tr style="font-size:15px; cursor: pointer" (click)="tableClicked(item.itemCode)">
-        <td>{{item.itemCode}}</td>
-        <td>{{item.itemCategory}}</td>
-        <td>{{item.title}}</td>
-        <td>{{item.author}}</td>
-        <td>{{item.publisher}}</td>
-        <td>{{item.year}}</td>
-        <td>{{item.bookCatagory}}</td>
-        <td>{{item.price}}</td>
-        <td>{{item.isbn}}</td>
+      <tr style="font-size:15px; cursor: pointer">
+        <td (click)="tableClicked(item.itemCode)">{{item.itemCode}}</td>
+        <td (click)="tableClicked(item.itemCode)">{{item.itemCategory}}</td>
+        <td (click)="tableClicked(item.itemCode)">{{item.title}}</td>
+        <td (click)="tableClicked(item.itemCode)">{{item.author}}</td>
+        <td (click)="tableClicked(item.itemCode)">{{item.publisher}}</td>
+        <td (click)="tableClicked(item.itemCode)">{{item.year}}</td>
+        <td (click)="tableClicked(item.itemCode)">{{item.bookCatagory}}</td>
+        <td><button class="btn btn-primary" (click)="changeCategory(item.itemCode,item.bookCatagory)">Change</button></td>
+        <td (click)="tableClicked(item.itemCode)">{{item.price}}</td>
+        <td (click)="tableClicked(item.itemCode)">{{item.isbn}}</td>
 
       </tr>
       <!--<tr>-->

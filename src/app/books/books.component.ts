@@ -22,7 +22,10 @@ export class BooksComponent implements OnInit {
   private bookCatagory  = "Select Category";
   private price;
   private isbn;
-
+  private item:any;
+  private filterCategory="";
+  private filterItemCategory="";
+  private filterItemsArr:any;
   ngOnInit() {
     if(localStorage.getItem("logged")!="true"){
 
@@ -60,6 +63,8 @@ export class BooksComponent implements OnInit {
         alert("No Item Found ! ");
         return;
       }
+      this.item = result;
+      console.log(this.item);
       this.itemCode = result["itemCode"];
       this.itemCategory = result["itemCategory"];
       this.author = result["author"];
@@ -107,6 +112,87 @@ export class BooksComponent implements OnInit {
 
     this.itemCode = itemCode;
     this.findById()
+  }
+
+
+  public filterItems(){
+
+    if(this.filterCategory==""){
+      if(this.filterItemCategory=="All Items"){
+        this.getAllBooks();
+        return;
+      }
+      this.bookService.ByItemCategory(this.filterItemCategory).subscribe(result=>{
+        this.items = result;
+      })
+    }else if(this.filterItemCategory==""){
+      if(this.filterCategory=="All Categories"){
+        this.getAllBooks();
+        return;
+      }
+      this.bookService.byCategory(this.filterCategory).subscribe(result=>{
+        this.items = result;
+      })
+    }
+
+
+    else if(this.filterCategory!="" && this.filterItemCategory!=""){
+
+      if(this.filterCategory=="All Categories" && this.filterItemCategory=="All Items"){
+       this.getAllBooks();
+       return;
+      }
+      if(this.filterCategory=="All Categories" && this.filterItemCategory!="All Items"){
+        console.log("HERE all Items")
+        this.bookService.ByItemCategory(this.filterItemCategory).subscribe(result=>{
+          this.items = result;
+          return;
+        })
+      } else if(this.filterItemCategory=="All Items" && this.filterCategory!="All Categories"){
+
+          this.bookService.byCategory(this.filterCategory).subscribe(result=>{
+
+            this.items = result;
+            return;
+          })
+        }else{
+        this.bookService.byCategoryandItemCategory(this.filterCategory,this.filterItemCategory).subscribe(result=>{
+          this.items = result;
+        })
+      }
+    }
+
+
+    // console.log(this.filterItemsArr)
+    // console.log(this.FilterItemcategory)
+  }
+
+  changeCategory(itemCode,category){
+
+    console.log("change")
+    if(category=="Public"){
+      this.bookService.changeCategory(itemCode,"Rare").subscribe(result=>{
+
+
+        this.items.forEach(item=>{
+          if(item["itemCode"]==itemCode){
+            item["bookCatagory"] = "Rare";
+          }
+        })
+      })
+
+    }else{
+      this.bookService.changeCategory(itemCode,"Public").subscribe(res=>{
+        this.items.forEach(item=>{
+          if(item["itemCode"]==itemCode){
+            item["bookCatagory"] = "Public";
+          }
+        })
+      })
+
+    }
+
+
   }
   public clear(){
     this.itemCode = "";
