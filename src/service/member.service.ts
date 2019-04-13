@@ -16,4 +16,21 @@ export class MemberService {
   approveMemebr(NIC){
     return this.http.put(this.url+"foreignmembers/approveMember/"+NIC,null);
   }
+
+  getLocalMemberByID(NIC){
+    return this.http.get(this.url+"localmemebrs/"+NIC);
+  }
+
+  getForeignMemberByID(NIC){
+    return this.http.get(this.url+"foreignmembers/"+NIC);
+  }
+
+
+  getAllLocalMemebrs(){
+    return this.http.get((this.url+"localmemebrs"))
+  }
+
+  getAllForeignMemebrs(){
+    return this.http.get((this.url+"foreignmembers"))
+  }
 }
