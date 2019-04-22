@@ -14,14 +14,15 @@ export class BookService {
   }
 
   saveItem(item){
-    return this.http.post(this.url+"/items",item);
-  }
-  // const headers = new HttpHeaders({ 'Content-Type': 'application/xml' }).set('Accept', 'application/xml');
-  findById(ID){
-    const httpOptions = {
-      'responseType'  : 'xml' as 'json'
+  const header = new HttpHeaders({ 'Content-Type': 'application/xml' });
 
-    };
+    return this.http.post(this.url+"/items",item,{
+      headers:header
+    });
+  }
+
+  findById(ID){
+
     return this.http.get(this.url+"/items/"+ID);
   }
 

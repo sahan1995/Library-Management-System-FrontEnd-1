@@ -18,11 +18,19 @@ export class MemberService {
   }
 
   getLocalMemberByID(NIC){
-    return this.http.get(this.url+"localmemebrs/"+NIC);
+    const httpOptions = {
+      'responseType'  : 'xml' as 'json'
+
+    };
+    return this.http.get(this.url+"localmemebrs/"+NIC,httpOptions);
   }
 
   getForeignMemberByID(NIC){
-    return this.http.get(this.url+"foreignmembers/"+NIC);
+    const httpOptions = {
+      'responseType'  : 'xml' as 'json'
+
+    };
+    return this.http.get(this.url+"foreignmembers/"+NIC,httpOptions);
   }
 
 

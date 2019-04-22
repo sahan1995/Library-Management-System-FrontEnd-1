@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Route, Router} from "@angular/router";
 import {BookService} from "../../service/book.service";
 import {Alert} from "selenium-webdriver";
+import {NgxXml2jsonService} from "ngx-xml2json";
 
 @Component({
   selector: 'app-books',
@@ -31,6 +32,9 @@ export class BooksComponent implements OnInit {
   private filterItemCategory = "";
   private filterItemsArr: any;
 
+
+  private js2xmlparser;
+
   ngOnInit() {
     if (localStorage.getItem("logged") != "true") {
 
@@ -38,6 +42,8 @@ export class BooksComponent implements OnInit {
     }
 
     this.getAllBooks();
+
+    this.js2xmlparser  = require("js2xmlparser");
   }
 
 
@@ -49,7 +55,11 @@ export class BooksComponent implements OnInit {
 
   public saveItem(itemForm) {
 
-    this.bookService.saveItem(itemForm.value).subscribe(result => {
+    var item = itemForm.value;
+    var xml = this.js2xmlparser.parse("ItemDTO",item);
+    console.log(xml);
+
+    this.bookService.saveItem(xml).subscribe(result => {
       if (result == true) {
         this.getAllBooks();
         this.clear();
@@ -63,7 +73,7 @@ export class BooksComponent implements OnInit {
 
   public findById() {
     this.bookService.findById(this.itemCode).subscribe(result => {
-      if (result == null) {
+      if (result == "") {
         alert("No Item Found ! ");
         return;
       }
@@ -80,6 +90,9 @@ export class BooksComponent implements OnInit {
       this.floor=result["floor"];
       this.cupBoard=result["cupBoard"];
       this.stock=result["stock"]
+
+
+
 
     })
 
