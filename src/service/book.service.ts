@@ -6,15 +6,20 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 })
 export class BookService {
 
-  private url= "http://localhost:8080/api/v1/"
+  private url= "http://localhost:8080/api/v1/";
   constructor(private http:HttpClient) { }
 
    getAllBooks(){
-    return this.http.get(this.url+"/items");
+     const httpOptions = {
+       headers: new HttpHeaders({
+         'Authorization': 'Basic ' +btoa("library:library123")
+       })
+     };
+     return this.http.get("http://localhost:8080/api/v1/items",httpOptions);
   }
 
   saveItem(item){
-  const header = new HttpHeaders({ 'Content-Type': 'application/xml' });
+  const header = new HttpHeaders({ 'Content-Type': 'application/xml' ,  'Authorization': 'Basic ' +btoa("library:library123")});
 
     return this.http.post(this.url+"/items",item,{
       headers:header
@@ -22,33 +27,66 @@ export class BookService {
   }
 
   findById(ID){
-
-    return this.http.get(this.url+"/items/"+ID);
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Basic ' +btoa("library:library123")
+      })
+    };
+    return this.http.get(this.url+"items/"+ID,httpOptions);
   }
 
   updateItem(itemCode,item){
-    console.log(itemCode)
-    return this.http.put(this.url+"/items/"+itemCode,item);
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Basic ' +btoa("library:library123")
+      })
+    };
+    // console.log(itemCode)
+    return this.http.put(this.url+"/items/"+itemCode,item,httpOptions);
   }
 
   deleteItem(itemCode){
-    return this.http.delete(this.url+"/items/"+itemCode);
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Basic ' +btoa("library:library123")
+      })
+    };
+    return this.http.delete(this.url+"/items/"+itemCode,httpOptions);
   }
 
   ByItemCategory(itemCategory){
-
-    return this.http.get(this.url+"items/byItemCategory/"+itemCategory)
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Basic ' +btoa("library:library123")
+      })
+    };
+    return this.http.get(this.url+"items/byItemCategory/"+itemCategory,httpOptions)
   }
 
   byCategory(category){
-    return this.http.get(this.url+"items/byCategory/"+category)
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Basic ' +btoa("library:library123")
+      })
+    };
+    return this.http.get(this.url+"items/byCategory/"+category,httpOptions)
   }
 
   byCategoryandItemCategory(category,itemCategory){
-    return this.http.get(this.url+"items/byCategory&itemCategory/"+category+"/"+itemCategory)
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Basic ' +btoa("library:library123")
+      })
+    };
+    return this.http.get(this.url+"items/byCategory&itemCategory/"+category+"/"+itemCategory,httpOptions)
   }
 
   changeCategory(itemCode,category){
-    return this.http.put(this.url+"items/changeCategory/"+itemCode+"/"+category,null);
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Basic ' +btoa("library:library123")
+      })
+    };
+    return this.http.put(this.url+"items/changeCategory/"+itemCode+"/"+category,null,httpOptions);
   }
 }

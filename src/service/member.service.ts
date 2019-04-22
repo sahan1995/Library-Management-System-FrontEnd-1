@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -10,35 +10,66 @@ export class MemberService {
 
 
   getRequests(){
-    return this.http.get(this.url+"foreignmembers/requests")
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Basic ' +btoa("library:library123")
+      })
+    };
+    return this.http.get(this.url+"foreignmembers/requests",httpOptions)
   }
 
   approveMemebr(NIC){
-    return this.http.put(this.url+"foreignmembers/approveMember/"+NIC,null);
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Basic ' +btoa("library:library123")
+      })
+    };
+    return this.http.put(this.url+"foreignmembers/approveMember/"+NIC,null,httpOptions);
   }
 
   getLocalMemberByID(NIC){
-    const httpOptions = {
-      'responseType'  : 'xml' as 'json'
 
+    const httpOptions = {
+      'responseType'  : 'xml' as 'json',
+      headers: new HttpHeaders({
+
+        'Authorization': 'Basic ' +btoa("library:library123")
+      })
     };
+    // const httpOptions = {
+    //
+    //
+    // };
     return this.http.get(this.url+"localmemebrs/"+NIC,httpOptions);
   }
 
   getForeignMemberByID(NIC){
     const httpOptions = {
-      'responseType'  : 'xml' as 'json'
+      'responseType'  : 'xml' as 'json',
+      headers: new HttpHeaders({
 
+        'Authorization': 'Basic ' +btoa("library:library123")
+      })
     };
     return this.http.get(this.url+"foreignmembers/"+NIC,httpOptions);
   }
 
 
   getAllLocalMemebrs(){
-    return this.http.get((this.url+"localmemebrs"))
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Basic ' +btoa("library:library123")
+      })
+    };
+    return this.http.get((this.url+"localmemebrs"),httpOptions)
   }
 
   getAllForeignMemebrs(){
-    return this.http.get((this.url+"foreignmembers"))
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Basic ' +btoa("library:library123")
+      })
+    };
+    return this.http.get(this.url+"foreignmembers",httpOptions)
   }
 }
